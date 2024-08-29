@@ -76,6 +76,7 @@ func GetPublicProfileByUsername(username string) (*models.PublicProfile, error) 
 	var publicProfile models.PublicProfile
 
 	publicProfile.Username = username
+	fmt.Println("username: ", username)
 	// Get user ID from username
 	var userID int
 	query := `SELECT id FROM users WHERE username = $1`
@@ -135,14 +136,23 @@ func UpdateProfileByUsername(username string, input UpdateProfileInput) (*models
 
 // DeleteProfileByUsername deletes the profile of a user by their username
 func DeleteProfileByUsername(username string) error {
+	// Get user ID from username
 	var userID int
 	query := `SELECT id FROM users WHERE username = $1`
 	err := DB.QueryRow(query, username).Scan(&userID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return fmt.Errorf("user not found: %w", err)
+		}
 		return fmt.Errorf("error retrieving user ID by username: %w", err)
 	}
 
-	query = `DELETE FROM profiles WHERE user_id = $1`
+	// Delete profile by user ID
+	query = `DELETE FROM users WHERE id = $1`
 	_, err = DB.Exec(query, userID)
-	return fmt.Errorf("error deleting profile by username: %w", err)
+	if err != nil {
+		return fmt.Errorf("error deleting profile by username: %w", err)
+	}
+
+	return nil
 }
