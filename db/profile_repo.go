@@ -75,6 +75,7 @@ func UpdateProfile(userID int, input UpdateProfileInput) (*models.Profile, error
 func GetPublicProfileByUsername(username string) (*models.PublicProfile, error) {
 	var publicProfile models.PublicProfile
 
+	publicProfile.Username = username
 	// Get user ID from username
 	var userID int
 	query := `SELECT id FROM users WHERE username = $1`
@@ -87,8 +88,8 @@ func GetPublicProfileByUsername(username string) (*models.PublicProfile, error) 
 	}
 
 	// Get public profile details using user ID
-	query = `SELECT username, avatar, bio FROM profiles WHERE user_id = $1`
-	err = DB.QueryRow(query, userID).Scan(&publicProfile.Username, &publicProfile.Avatar, &publicProfile.Bio)
+	query = `SELECT avatar, bio FROM profiles WHERE user_id = $1`
+	err = DB.QueryRow(query, userID).Scan(&publicProfile.Avatar, &publicProfile.Bio)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil

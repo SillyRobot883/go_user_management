@@ -21,7 +21,6 @@ func GetProfile(c *gin.Context) {
 }
 
 // this retrieves the private profile details of a user
-// no need for username
 func GetProfileDetails(c *gin.Context) {
 	username := c.MustGet("username").(string)
 	user, err := db.GetUserByUsername(username)
@@ -34,6 +33,7 @@ func GetProfileDetails(c *gin.Context) {
 }
 
 // this retrieves the public profile details of a user
+// used by other users
 func GetPublicProfile(c *gin.Context) {
 	username := c.Param("username")
 	profile, err := db.GetPublicProfileByUsername(username)

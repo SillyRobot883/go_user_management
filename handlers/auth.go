@@ -42,15 +42,20 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var input db.CreateUserInput
+	var input db.LoginUserInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	user, err := db.GetUserByUsername(input.Username)
+	user, err := db.GetUserByEmail(input.Email)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if user == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
 		return
 	}
 

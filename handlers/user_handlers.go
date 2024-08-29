@@ -6,6 +6,8 @@ import (
 	"profiles_go/db"
 )
 
+// this will be used for the admin panel
+
 func GetUser(c *gin.Context) {
 	username := c.MustGet("username").(string)
 	user, err := db.GetUserByUsername(username)
