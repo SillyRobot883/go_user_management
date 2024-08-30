@@ -23,7 +23,7 @@ func GetProfile(c *gin.Context) {
 // this retrieves the private profile details of a user
 func GetProfileDetails(c *gin.Context) {
 	username := c.MustGet("username").(string)
-	user, err := db.GetUserByUsername(username)
+	user, err := db.GetProfileDetailsByUsername(username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

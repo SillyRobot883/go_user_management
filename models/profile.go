@@ -17,6 +17,11 @@ type PublicProfile struct {
 	Bio      string `json:"bio"`
 }
 
+type ProfileDetails struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+}
+
 func NewProfile(userID int, avatar, bio string) *Profile {
 	return &Profile{
 		UserID:    userID,

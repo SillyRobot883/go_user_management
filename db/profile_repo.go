@@ -156,3 +156,16 @@ func DeleteProfileByUsername(username string) error {
 
 	return nil
 }
+
+func GetProfileDetailsByUsername(username string) (*models.ProfileDetails, error) {
+	user := &models.ProfileDetails{}
+	query := `SELECT username, email FROM users WHERE username = $1`
+	err := DB.QueryRow(query, username).Scan(&user.Username, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return user, nil
+}
