@@ -72,7 +72,7 @@ func DeleteProfile(c *gin.Context) {
 	username := c.MustGet("username").(string)
 	err := db.DeleteProfileByUsername(username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User already deleted or doesn't exist"})
 		return
 	}
 
