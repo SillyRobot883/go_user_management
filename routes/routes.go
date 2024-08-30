@@ -19,10 +19,11 @@ func Routes() {
 	// protected routes
 
 	// user routes
-	router.GET("/profile", handlers.AuthMiddleware(), handlers.GetProfile)                // get own profile
-	router.PATCH("/profile", handlers.AuthMiddleware(), handlers.UpdateProfile)           // update basic profile info
-	router.DELETE("/profile", handlers.AuthMiddleware(), handlers.DeleteProfile)          // delete
-	router.GET("/profile/details", handlers.AuthMiddleware(), handlers.GetProfileDetails) // get email and other private info
+	router.GET("/profile", handlers.AuthMiddleware(), handlers.GetProfile)               // get own profile
+	router.PATCH("/profile", handlers.AuthMiddleware(), handlers.UpdateProfile)          // update basic profile info
+	router.DELETE("/profile/details", handlers.AuthMiddleware(), handlers.DeleteProfile) // delete
+	router.GET("/profile/details", handlers.AuthMiddleware(), handlers.GetProfileDetails)
+	//router.PATCH("profiles/details", handlers.AuthMiddleware(), handlers.UpdateProfileDetails) // get email and other private info
 	// @TODO /profile/details (PUT) - update email and other private info
 
 	// admin routes

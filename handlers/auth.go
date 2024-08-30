@@ -27,6 +27,7 @@ type Claims struct {
 
 func Register(c *gin.Context) {
 	var input db.CreateUserInput
+	// ShouldBindJSON binds the request body to the input struct, and returns an error if the request body is not a valid JSON object
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

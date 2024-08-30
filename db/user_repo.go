@@ -18,7 +18,6 @@ type LoginUserInput struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
-
 type UpdateUserInput struct {
 	Username string `json:"username"`
 	Email    string `json:"email" binding:"email"`
@@ -80,7 +79,7 @@ func CreateUser(input CreateUserInput) (*models.User, error) {
 // GetUserByUsername retrieves a user by their username
 func GetUserByUsername(username string) (*models.User, error) {
 	user := &models.User{}
-	query := `SELECT id, username, email, password_hash, created_at, updated_at FROM users WHERE username = $1`
+	query := `SELECT id, username, email, password_hash FROM users WHERE username = $1`
 	err := DB.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Email, &user.PasswordHash, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
